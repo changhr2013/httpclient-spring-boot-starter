@@ -1,0 +1,17 @@
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\service\HttpRequestRetryHandlerService.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\properties\RequestConfigProperties.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\autoconfig\RegistryConf.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\service\RequestConfigService.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\properties\ConnectionKeepAliveStrategyProperties.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\autoconfig\ConnectionKeepAliveStrategyConf.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\autoconfig\RequestConfigConf.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\autoconfig\HttpRequestRetryHandlerConf.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\autoconfig\DefaultProxyRoutePlannerConf.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\service\ConnectionKeepAliveStrategyService.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\service\PoolingHttpClientConnectionManagerService.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\properties\HttpRequestRetryHandlerProperties.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\properties\DefaultProxyRoutePlannerProperties.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\autoconfig\PoolingHttpClientConnectionManagerConf.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\http\CustomTrustManager.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\properties\PoolingHttpClientConnectionManagerProperties.java
+C:\Users\m4000e\Desktop\springboot-learning-example\httpclientpro\src\main\java\com\changhr\cbox\httpclientpro\service\DefaultProxyRoutePlannerService.java

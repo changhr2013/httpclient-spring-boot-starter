@@ -1,0 +1,98 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.ConnectionKeepAliveStrategyProperties",
+      "name": "http.client.alive",
+      "type": "com.changhr.cbox.httpclientpro.properties.ConnectionKeepAliveStrategyProperties"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.PoolingHttpClientConnectionManagerProperties",
+      "name": "http.client.manager",
+      "type": "com.changhr.cbox.httpclientpro.properties.PoolingHttpClientConnectionManagerProperties"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.DefaultProxyRoutePlannerProperties",
+      "name": "http.client.proxy",
+      "type": "com.changhr.cbox.httpclientpro.properties.DefaultProxyRoutePlannerProperties"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.RequestConfigProperties",
+      "name": "http.client.request",
+      "type": "com.changhr.cbox.httpclientpro.properties.RequestConfigProperties"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.HttpRequestRetryHandlerProperties",
+      "name": "http.client.retry",
+      "type": "com.changhr.cbox.httpclientpro.properties.HttpRequestRetryHandlerProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.ConnectionKeepAliveStrategyProperties",
+      "defaultValue": 30,
+      "name": "http.client.alive.keep-alive-time",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.PoolingHttpClientConnectionManagerProperties",
+      "defaultValue": 20,
+      "name": "http.client.manager.default-max-per-route",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.PoolingHttpClientConnectionManagerProperties",
+      "defaultValue": 100,
+      "name": "http.client.manager.max-total",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.PoolingHttpClientConnectionManagerProperties",
+      "defaultValue": 60,
+      "name": "http.client.manager.time-to-live",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.PoolingHttpClientConnectionManagerProperties",
+      "defaultValue": 30000,
+      "name": "http.client.manager.validate-after-inactivity",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.DefaultProxyRoutePlannerProperties",
+      "defaultValue": "localhost",
+      "name": "http.client.proxy.proxy-host",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.DefaultProxyRoutePlannerProperties",
+      "defaultValue": 8090,
+      "name": "http.client.proxy.proxy-port",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.RequestConfigProperties",
+      "defaultValue": 1000,
+      "name": "http.client.request.connect-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.RequestConfigProperties",
+      "defaultValue": 500,
+      "name": "http.client.request.connection-request-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.RequestConfigProperties",
+      "defaultValue": 10000,
+      "name": "http.client.request.socket-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.changhr.cbox.httpclientpro.properties.HttpRequestRetryHandlerProperties",
+      "defaultValue": 2,
+      "name": "http.client.retry.retry-count",
+      "type": "java.lang.Integer"
+    }
+  ]
+}
