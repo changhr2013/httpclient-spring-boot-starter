@@ -1,7 +1,6 @@
 package com.changhr.cbox.httpclientpro.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * RequesConfig属性类
