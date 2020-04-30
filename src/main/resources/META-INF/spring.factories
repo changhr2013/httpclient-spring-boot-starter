@@ -1,7 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.changhr.cbox.httpclientpro.autoconfig.RequestConfigConf,\
-  com.changhr.cbox.httpclientpro.autoconfig.HttpRequestRetryHandlerConf,\
-  com.changhr.cbox.httpclientpro.autoconfig.ConnectionKeepAliveStrategyConf,\
-  com.changhr.cbox.httpclientpro.autoconfig.DefaultProxyRoutePlannerConf,\
-  com.changhr.cbox.httpclientpro.autoconfig.RegistryConf,\
-  com.changhr.cbox.httpclientpro.autoconfig.PoolingHttpClientConnectionManagerConf
+  com.changhr.cbox.httpclient.autoconfig.HttpInvokerConfiguration,\
+  com.changhr.cbox.httpclient.autoconfig.RegistryConfiguration

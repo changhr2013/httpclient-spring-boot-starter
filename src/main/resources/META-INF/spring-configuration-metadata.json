@@ -1,0 +1,58 @@
+{
+  "groups": [
+    {
+      "name": "http.client",
+      "type": "com.changhr.cbox.httpclient.properties.HttpClientProperties",
+      "sourceType": "com.changhr.cbox.httpclient.properties.HttpClientProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "http.client.manager.maxTotal",
+      "type": "java.lang.Integer",
+      "sourceType": "com.changhr.cbox.httpclient.properties.ManagerProp"
+    },
+    {
+      "name": "http.client.manager.defaultMaxPerRoute",
+      "type": "java.lang.Integer",
+      "sourceType": "com.changhr.cbox.httpclient.properties.ManagerProp"
+    },
+    {
+      "name": "http.client.manager.connectTimeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.changhr.cbox.httpclient.properties.ManagerProp"
+    },
+    {
+      "name": "http.client.manager.validateAfterInactivity",
+      "type": "java.lang.Integer",
+      "sourceType": "com.changhr.cbox.httpclient.properties.ManagerProp"
+    },
+    {
+      "name": "http.client.manager.timeToLive",
+      "type": "java.lang.Integer",
+      "sourceType": "com.changhr.cbox.httpclient.properties.ManagerProp"
+    },
+    {
+      "name": "http.client.request.connectionRequestTimeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.changhr.cbox.httpclient.properties.RequestProp"
+    },
+    {
+      "name": "http.client.request.socketTimeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.changhr.cbox.httpclient.properties.RequestProp"
+    },
+    {
+      "name": "http.client.proxy.proxyHost",
+      "type": "java.lang.String",
+      "sourceType": "com.changhr.cbox.httpclient.properties.ProxyProp"
+    },
+    {
+      "name": "http.client.proxy.proxyPort",
+      "type": "java.lang.Integer",
+      "sourceType": "com.changhr.cbox.httpclient.properties.ProxyProp"
+    }
+  ],
+  "hints": [
+  ]
+}
