@@ -102,7 +102,7 @@ public class HttpAsyncInvoker {
                 String result = this.sendGet(url, paramMap, headerMap);
                 future.complete(result);
             } catch (Exception e) {
-                future.exceptionally(throwable -> e.getMessage());
+                future.completeExceptionally(e);
             }
         });
         return future;
@@ -164,7 +164,7 @@ public class HttpAsyncInvoker {
                 byte[] result = this.sendGetToBytes(url, paramMap, headerMap);
                 future.complete(result);
             } catch (Exception e) {
-                future.exceptionally(throwable -> e.getMessage().getBytes(StandardCharsets.UTF_8));
+                future.completeExceptionally(e);
             }
         });
         return future;
@@ -236,7 +236,7 @@ public class HttpAsyncInvoker {
                 String result = this.sendPost(url, paramMap, headerMap);
                 future.complete(result);
             } catch (Exception e) {
-                future.exceptionally(throwable -> e.getMessage());
+                future.completeExceptionally(e);
             }
         });
         return future;
@@ -310,7 +310,7 @@ public class HttpAsyncInvoker {
                 String result = this.sendPostWithPart(url, paramMap, partMap, headerMap);
                 future.complete(result);
             } catch (Exception e) {
-                future.exceptionally(throwable -> e.getMessage());
+                future.completeExceptionally(e);
             }
         });
         return future;
@@ -390,7 +390,7 @@ public class HttpAsyncInvoker {
                 String result = this.sendPost(url, data, headerMap);
                 future.complete(result);
             } catch (Exception e) {
-                future.exceptionally(throwable -> e.getMessage());
+                future.completeExceptionally(e);
             }
         });
         return future;
@@ -455,7 +455,7 @@ public class HttpAsyncInvoker {
                 String result = this.sendPost(url, requestJson, headerMap);
                 future.complete(result);
             } catch (Exception e) {
-                future.exceptionally(throwable -> e.getMessage());
+                future.completeExceptionally(e);
             }
         });
         return future;

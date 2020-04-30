@@ -1,5 +1,6 @@
 package com.changhr.cbox.httpclient.autoconfig;
 
+import com.changhr.cbox.httpclient.HttpAsyncInvoker;
 import com.changhr.cbox.httpclient.HttpConnectionManager;
 import com.changhr.cbox.httpclient.HttpInvoker;
 import com.changhr.cbox.httpclient.properties.HttpClientProperties;
@@ -167,4 +168,10 @@ public class HttpInvokerConfiguration {
         return new HttpInvoker(manager);
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public HttpAsyncInvoker httpAsyncInvoker() {
+        HttpConnectionManager manager = new HttpConnectionManager(requestConfig(), poolingHttpClientConnectionManager());
+        return new HttpAsyncInvoker(manager);
+    }
 }
