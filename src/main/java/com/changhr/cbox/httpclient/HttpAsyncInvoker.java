@@ -27,9 +27,13 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Function;
 
 /**
  * 负责发送 HTTP 请求的工具类
@@ -37,15 +41,28 @@ import java.util.Map;
  * @author changhr2013
  */
 @SuppressWarnings({"Duplicates", "unused"})
-public class HttpInvoker {
+public class HttpAsyncInvoker {
 
-    private static final Logger log = LoggerFactory.getLogger(HttpInvoker.class);
+    /** 工作线程池 */
+    private static final AtomicLong THREAD_COUNT = new AtomicLong(0L);
+    private static final ExecutorService EXECUTORS = new ThreadPoolExecutor(
+            16, 32, 0, TimeUnit.MICROSECONDS,
+            new LinkedBlockingQueue<>(1024),
+            runnable -> {
+                Thread thread = new Thread(runnable);
+                thread.setDaemon(false);
+                thread.setName("http-client-async-thread-" + THREAD_COUNT.getAndIncrement());
+                return thread;
+            }
+    );
+
+    private static final Logger log = LoggerFactory.getLogger(HttpAsyncInvoker.class);
 
     private static final ContentType TEXT_PLAIN_UTF8 = ContentType.create("text/plain", Consts.UTF_8);
 
     private HttpConnectionManager manager;
 
-    public HttpInvoker(HttpConnectionManager manager) {
+    public HttpAsyncInvoker(HttpConnectionManager manager) {
         this.manager = manager;
     }
 
@@ -57,15 +74,14 @@ public class HttpInvoker {
         this.manager = manager;
     }
 
-
     /**
      * 发送 HTTP GET 请求
      *
      * @param url 请求 URL
      * @return String   响应结果
      */
-    public String sendGet(String url) {
-        return sendGet(url, null, null);
+    public CompletableFuture<String> asyncSendGet(String url) {
+        return asyncSendGet(url, null, null);
     }
 
     /**
@@ -75,8 +91,21 @@ public class HttpInvoker {
      * @param paramMap 请求参数
      * @return String   响应结果
      */
-    public String sendGet(String url, Map<String, String> paramMap) {
-        return sendGet(url, paramMap, null);
+    public CompletableFuture<String> asyncSendGet(String url, Map<String, String> paramMap) {
+        return asyncSendGet(url, paramMap, null);
+    }
+
+    public CompletableFuture<String> asyncSendGet(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        EXECUTORS.execute(() -> {
+            try {
+                String result = this.sendGet(url, paramMap, headerMap);
+                future.complete(result);
+            } catch (Exception e) {
+                future.exceptionally(throwable -> e.getMessage());
+            }
+        });
+        return future;
     }
 
     /**
@@ -87,8 +116,7 @@ public class HttpInvoker {
      * @param headerMap 自定义 Header
      * @return String   响应结果
      */
-    public String sendGet(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
-
+    private String sendGet(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
 
         // 初始化 HttpGet
         HttpGet get = new HttpGet();
@@ -129,6 +157,19 @@ public class HttpInvoker {
         }
     }
 
+    public CompletableFuture<byte[]> asyncSendGetToBytes(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
+        CompletableFuture<byte[]> future = new CompletableFuture<>();
+        EXECUTORS.execute(() -> {
+            try {
+                byte[] result = this.sendGetToBytes(url, paramMap, headerMap);
+                future.complete(result);
+            } catch (Exception e) {
+                future.exceptionally(throwable -> e.getMessage().getBytes(StandardCharsets.UTF_8));
+            }
+        });
+        return future;
+    }
+
     /**
      * 发送 HTTP GET 请求，带自定义 Header
      *
@@ -137,7 +178,7 @@ public class HttpInvoker {
      * @param headerMap 自定义 Header
      * @return byte[]   响应结果
      */
-    public byte[] sendGetToBytes(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
+    private byte[] sendGetToBytes(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
 
         HttpGet get = new HttpGet();
 
@@ -184,8 +225,21 @@ public class HttpInvoker {
      * @param paramMap 请求参数
      * @return String   响应结果
      */
-    public String sendPost(String url, Map<String, String> paramMap) {
-        return sendPost(url, paramMap, null);
+    public CompletableFuture<String> asyncSendPost(String url, Map<String, String> paramMap) {
+        return asyncSendPost(url, paramMap, null);
+    }
+
+    public CompletableFuture<String> asyncSendPost(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        EXECUTORS.submit(() -> {
+            try {
+                String result = this.sendPost(url, paramMap, headerMap);
+                future.complete(result);
+            } catch (Exception e) {
+                future.exceptionally(throwable -> e.getMessage());
+            }
+        });
+        return future;
     }
 
     /**
@@ -196,7 +250,7 @@ public class HttpInvoker {
      * @param headerMap header 信息
      * @return String   响应结果
      */
-    public String sendPost(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
+    private String sendPost(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
 
         HttpPost post = new HttpPost(url);
 
@@ -243,8 +297,23 @@ public class HttpInvoker {
      * @param partMap  字节型参数 map
      * @return String    响应结果
      */
-    public String sendPostWithPart(String url, Map<String, String> paramMap, Map<String, byte[]> partMap) {
-        return sendPostWithPart(url, paramMap, partMap, null);
+    public CompletableFuture<String> asyncSendPostWithPart(String url, Map<String, String> paramMap,
+                                                           Map<String, byte[]> partMap) {
+        return asyncSendPostWithPart(url, paramMap, partMap, null);
+    }
+
+    public CompletableFuture<String> asyncSendPostWithPart(String url, Map<String, String> paramMap,
+                                                           Map<String, byte[]> partMap, Map<String, String> headerMap) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        EXECUTORS.submit(() -> {
+            try {
+                String result = this.sendPostWithPart(url, paramMap, partMap, headerMap);
+                future.complete(result);
+            } catch (Exception e) {
+                future.exceptionally(throwable -> e.getMessage());
+            }
+        });
+        return future;
     }
 
     /**
@@ -256,7 +325,7 @@ public class HttpInvoker {
      * @param headerMap header 信息
      * @return String    响应结果
      */
-    public String sendPostWithPart(String url, Map<String, String> paramMap,
+    private String sendPostWithPart(String url, Map<String, String> paramMap,
                                    Map<String, byte[]> partMap, Map<String, String> headerMap) {
         HttpPost post = new HttpPost(url);
 
@@ -310,8 +379,21 @@ public class HttpInvoker {
      * @param data 字节数据
      * @return String 远程服务器响应结果
      */
-    public String sendPost(String url, byte[] data) {
-        return sendPost(url, data, null);
+    public CompletableFuture<String> asyncSendPost(String url, byte[] data) {
+        return asyncSendPost(url, data, null);
+    }
+
+    public CompletableFuture<String> asyncSendPost(String url, byte[] data, Map<String, String> headerMap) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        EXECUTORS.submit(() -> {
+            try {
+                String result = this.sendPost(url, data, headerMap);
+                future.complete(result);
+            } catch (Exception e) {
+                future.exceptionally(throwable -> e.getMessage());
+            }
+        });
+        return future;
     }
 
     /**
@@ -322,7 +404,7 @@ public class HttpInvoker {
      * @param headerMap 自定义请求头
      * @return String 远程服务器响应结果
      */
-    public String sendPost(String url, byte[] data, Map<String, String> headerMap) {
+    private String sendPost(String url, byte[] data, Map<String, String> headerMap) {
 
         HttpPost post = new HttpPost(url);
 
@@ -362,8 +444,21 @@ public class HttpInvoker {
      * @param requestJson json 请求体
      * @return String 远程服务器响应结果
      */
-    public String sendPost(String url, String requestJson) {
-        return sendPost(url, requestJson, null);
+    public CompletableFuture<String> asyncSendPost(String url, String requestJson) {
+        return asyncSendPost(url, requestJson, null);
+    }
+
+    public CompletableFuture<String> asyncSendPost(String url, String requestJson, Map<String, String> headerMap) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        EXECUTORS.submit(() -> {
+            try {
+                String result = this.sendPost(url, requestJson, headerMap);
+                future.complete(result);
+            } catch (Exception e) {
+                future.exceptionally(throwable -> e.getMessage());
+            }
+        });
+        return future;
     }
 
     /**
@@ -374,7 +469,7 @@ public class HttpInvoker {
      * @param headerMap   自定义请求头
      * @return String 远程服务器响应结果
      */
-    public String sendPost(String url, String requestJson, Map<String, String> headerMap) {
+    private String sendPost(String url, String requestJson, Map<String, String> headerMap) {
 
         HttpPost post = new HttpPost(url);
 
